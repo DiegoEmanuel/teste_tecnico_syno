@@ -13,7 +13,10 @@ export default function Home() {
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         <a>
           <p>
-            "Criado com s2 por Diego Emanuel"
+          {/* Criado com s2 por Diego Emanuel */}
+          <a href="https://www.telacode.com.br/">
+            Criado com s2 por Diego Emanuel
+          </a>
           </p>
         </a>
       </footer>
