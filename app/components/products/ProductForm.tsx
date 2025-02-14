@@ -89,10 +89,18 @@ export function ProductForm({ initialData, productId }: ProductFormProps) {
       router.push('/product');
     } catch (error: any) {
       console.error('Erro completo:', error);
-      setError(`Erro ao ${productId ? 'atualizar' : 'criar'} produto. (Verifique se o código do produto já está em uso).`);
+      setError(`Erro ao ${productId ? 'atualizar' : 'criar'} produto. (Verifique se o código do produto já está em).`);
     } finally {
       setLoading(false);
     }
+  }
+
+  async function handleDelete() {
+    await fetchWithAuth(`/products/${productId}`, {
+      method: 'DELETE',
+    });
+
+    router.push('/product');
   }
 
   return (
@@ -157,14 +165,42 @@ export function ProductForm({ initialData, productId }: ProductFormProps) {
           <span className="text-sm font-medium text-gray-700">Produto Ativo</span>
         </label>
       </div>
+      <div className="w-full px-4 py-2 pl-10 border rounded-md bg-white text-black transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
 
-      {error && (
-        <div className="bg-red-50 text-red-500 p-4 rounded-md">
-          {error}
+        {initialData?.foto_produto && (
+          <div className="mt-4">
+            <img src={initialData.foto_produto} alt="Imagem do Produto" className="w-32 h-32 object-cover rounded-md" />
+          </div>
+        )}
+
+        {error && (
+          <div className="bg-red-50 text-red-500 p-4 rounded-md">
+            {error}
+          </div>
+        )}
+
+        <div className="flex flex-col gap-2">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Clique para alterar a imagem do produto
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+            className="w-full px-4 py-2 pl-10 border rounded-md bg-white text-black transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          />
         </div>
-      )}
+      </div>
 
       <div className="flex gap-4">
+        <button
+          disabled={loading}
+          type="button"
+          onClick={() => handleDelete()}
+          className="px-4 py-2 text-sm border rounded-md hover:bg-red-100 text-red-500"
+        >
+          Deletar
+        </button>
         <button
           type="button"
           onClick={() => router.back()}

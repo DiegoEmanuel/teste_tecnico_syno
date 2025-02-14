@@ -16,8 +16,8 @@ export default function Header() {
   return (
     <header className="w-full px-6 py-4 flex items-center justify-between border-b bg-green-500" >
       <Link href="/">
-        <h1 className="text-xl font-semibold">
-          Syno Test | HEINEKEN
+        <h1 className="text-xl font-semibold text-white">
+          SYNO | HEINEKEN
         </h1>
       </Link>
       {status === 'authenticated' && (
