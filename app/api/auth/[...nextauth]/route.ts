@@ -25,10 +25,6 @@ const handler = NextAuth({
       return session;
     }
   },
-  pages: {
-    signIn: '/',
-    error: '/',
-  },
   debug: true, // Ative isso temporariamente para ver logs detalhados
 });
 

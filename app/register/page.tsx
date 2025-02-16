@@ -16,7 +16,7 @@ export default function Register() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  
+
   const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormData>();
 
   async function onSubmit(data: RegisterFormData) {
@@ -27,7 +27,7 @@ export default function Register() {
       console.log('Enviando dados:', data); // Debug
       console.log('URL:', `${API_URL}users`); // Debug
 
-      const response = await fetch(`${API_URL}users`, {
+      const response = await fetch(`${API_URL}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ export default function Register() {
               Nome
             </label>
             <input
-              {...register('name', { 
+              {...register('name', {
                 required: 'Nome é obrigatório',
                 minLength: {
                   value: 3,
@@ -99,7 +99,7 @@ export default function Register() {
               Email
             </label>
             <input
-              {...register('email', { 
+              {...register('email', {
                 required: 'Email é obrigatório',
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -119,7 +119,7 @@ export default function Register() {
               Senha
             </label>
             <input
-              {...register('password', { 
+              {...register('password', {
                 required: 'Senha é obrigatória',
                 minLength: {
                   value: 6,
@@ -146,7 +146,7 @@ export default function Register() {
         </form>
 
         <div className="text-center">
-          <Link 
+          <Link
             href="/"
             className="text-sm text-green-600 hover:text-green-500"
           >
