@@ -50,9 +50,12 @@ export default function Register() {
       // Se chegou aqui, deu tudo certo
       alert('Conta criada com sucesso! Faça login para continuar.');
       router.push('/');
-    } catch (error: any) {
-      console.error('Erro completo:', error); // Debug
-      setError(error.message || 'Erro ao criar conta. Tente novamente.');
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('Erro desconhecido ao criar conta');
+      }
     } finally {
       setLoading(false);
     }

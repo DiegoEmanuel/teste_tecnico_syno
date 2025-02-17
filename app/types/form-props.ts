@@ -1,4 +1,4 @@
-interface ProductFormProps {
+export interface ProductFormProps {
     initialData?: {
         status: boolean;
         codigo_produto?: string;

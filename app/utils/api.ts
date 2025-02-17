@@ -4,7 +4,7 @@ import { API_URL } from '../constants/env';
 
 interface FetchWithAuthOptions {
   method?: string;
-  body?: any;
+  body?: string | FormData | URLSearchParams;
   headers?: Record<string, string>;
   'Content-Type'?: string;
 }

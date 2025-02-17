@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Product } from '@/app/types/product';
@@ -12,10 +12,12 @@ export default function ProductPage() {
   const { status } = useSession();
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
-  const handleLogout = async () => {
+
+  const handleLogout = useCallback(async () => {
     await signOut({ redirect: false });
     router.push('/');
-  };
+  }, [router]);
+
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/');
@@ -29,7 +31,7 @@ export default function ProductPage() {
           handleLogout();
         });
     }
-  }, [status, router]);
+  }, [status, router, handleLogout]);
 
   if (status === 'loading') {
     return <div className="flex justify-center items-center h-screen">Carregando...</div>;
@@ -56,4 +58,3 @@ export default function ProductPage() {
     </div>
   );
 }
-
