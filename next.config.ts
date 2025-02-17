@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig = {  
   images: {
     remotePatterns: [
       {
@@ -15,6 +15,14 @@ const nextConfig = {
         pathname: '/uploads/products/**',
       }
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/auth/:path*',
+        destination: '/api/auth/:path*',
+      },
+    ];
   },
 }
 

@@ -34,8 +34,9 @@ const handler = NextAuth({
       }
     })
   ],
-  session: {
-    strategy: 'jwt',
+  pages: {
+    signIn: '/',
+    error: '/'
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -48,10 +49,6 @@ const handler = NextAuth({
       session.user.accessToken = token.accessToken;
       return session;
     }
-  },
-  pages: {
-    signIn: '/',
-    error: '/auth/error'
   }
 });
 
