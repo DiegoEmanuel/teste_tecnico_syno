@@ -161,6 +161,7 @@ export default function EditProductPage() {
                 width={192}
                 height={192}
                 className="w-48 h-48 object-cover rounded border"
+                unoptimized
               />
             </div>
           )}

@@ -26,6 +26,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             src={product.foto_produto} 
             alt={product.descricao_produto}
             width={500}
+            unoptimized
             height={500}
             className={`w-full h-48 object-cover rounded-md 
               ${!product.status && 'grayscale'}`}
