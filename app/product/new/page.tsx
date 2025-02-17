@@ -25,11 +25,7 @@ export default function CreateProductPage() {
 
     if (file) {
       formData.append('foto_produto', file);
-    } else {
-      setError('Imagem é obrigatória');
-      setLoading(false);
-      return;
-    }
+    } 
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
@@ -91,7 +87,6 @@ export default function CreateProductPage() {
             accept="image/*"
             onChange={(e) => setFile(e.target.files?.[0] || null)}
             className="w-full p-2 border rounded-md"
-            required
           />
         </div>
         <div className="flex gap-4">
