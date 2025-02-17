@@ -9,12 +9,12 @@ const nextConfig = {
         port: '3000',
         pathname: '/uploads/products/**',
       },
-      // render
-      {
-        protocol: 'https',
-        hostname: 'teste-tecnico-syno-api.onrender.com',
-        pathname: '/uploads/products/**',
-      },
+      // // render
+      // {
+      //   protocol: 'https',
+      //   hostname: 'teste-tecnico-syno-api.onrender.com',
+      //   pathname: '/uploads/products/**',
+      // },
       // aws
       {
         protocol: 'http',
