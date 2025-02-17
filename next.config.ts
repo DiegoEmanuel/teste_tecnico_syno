@@ -25,14 +25,16 @@ const nextConfig = {
       }
     ],
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/auth/:path*',
-        destination: '/api/auth/:path*',
-      },
-    ];
-  },
+  rewrites: async () => [
+    {
+      source: '/api/auth/:path*',
+      destination: '/api/auth/:path*',
+    },
+    {
+      source: "/api/products",
+      destination: "http://34.205.99.179:3000/products",
+    },
+  ],
 }
 
 module.exports = nextConfig 
