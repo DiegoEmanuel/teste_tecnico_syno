@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Product } from '@/app/types/product';
 
 import { PencilIcon, PhotoIcon } from '@heroicons/react/24/outline';
@@ -21,9 +22,11 @@ export default function ProductCard({ product }: ProductCardProps) {
     >
       <div className="relative">
         {product.foto_produto ? (
-          <img 
+          <Image 
             src={product.foto_produto} 
             alt={product.descricao_produto}
+            width={500}
+            height={500}
             className={`w-full h-48 object-cover rounded-md 
               ${!product.status && 'grayscale'}`}
           />

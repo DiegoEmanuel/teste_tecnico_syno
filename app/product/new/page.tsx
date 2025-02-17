@@ -45,8 +45,12 @@ export default function CreateProductPage() {
       }
 
       router.push('/product');
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('Ocorreu um erro desconhecido');
+      }
     } finally {
       setLoading(false);
     }

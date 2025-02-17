@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { deleteProduct } from '@/app/api/product/productService';
+import Image from 'next/image';
 
 export default function EditProductPage() {
   const { data: session } = useSession();
@@ -70,7 +71,7 @@ export default function EditProductPage() {
 
     try {
       let response;
-      const changedData: Record<string, any> = {};
+      const changedData: Record<string, unknown> = {};
       changedFields.forEach(field => {
         changedData[field] = formData[field as keyof typeof formData];
       });
@@ -78,7 +79,7 @@ export default function EditProductPage() {
       if (file) {
         const form = new FormData();
         Object.entries(changedData).forEach(([key, value]) => {
-          form.append(key, value.toString());
+          form.append(key, value as string);
         });
         form.append('foto_produto', file);
 
@@ -107,7 +108,7 @@ export default function EditProductPage() {
         throw new Error('Erro ao atualizar produto');
       }
       router.push('/product');
-    } catch (err: any) {
+    } catch (err) {
       console.error('Erro:', err);
       setError('Erro ao atualizar produto');
     } finally {
@@ -154,9 +155,11 @@ export default function EditProductPage() {
           <label className="block mb-2">Imagem do Produto</label>
           {formData.foto_produto && !file && (
             <div className="mb-2">
-              <img
+              <Image
                 src={formData.foto_produto}
                 alt="Imagem do Produto"
+                width={192}
+                height={192}
                 className="w-48 h-48 object-cover rounded border"
               />
             </div>

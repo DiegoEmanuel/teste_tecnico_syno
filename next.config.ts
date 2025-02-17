@@ -3,11 +3,19 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "avatars.githubusercontent.com",
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/uploads/products/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'teste-tecnico-syno-api.onrender.com',
+        port: '',
+        pathname: '/uploads/products/**',
+      }
     ],
   },
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig 
