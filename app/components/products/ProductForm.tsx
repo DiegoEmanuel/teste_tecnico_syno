@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useProductForm } from '../../product/hooks/useProductFormHook';
-import { useRouter } from 'next/navigation'; 
+import { useRouter, useParams } from 'next/navigation';
 import InputSyno from '../ui/Input'; // Importando o InputSyno
 
 export interface ProductData {
@@ -23,6 +23,9 @@ export default function ProductForm({
   onSubmit,
   onDelete,
 }: ProductFormProps) {
+  const params = useParams();
+  const isEditing = Boolean(params?.id);
+  
   const {
     formData,
     setFormData,
@@ -35,9 +38,8 @@ export default function ProductForm({
     setError,
   } = useProductForm(initialData);
 
-  const router = useRouter(); // Instância do router
+  const router = useRouter();
 
-  // Atualiza o estado do formulário sempre que initialData mudar
   useEffect(() => {
     setFormData(initialData);
   }, [initialData, setFormData]);
@@ -60,7 +62,6 @@ export default function ProductForm({
     }
   };
   
-  //função para alterar a imagem do produto
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
@@ -96,17 +97,19 @@ export default function ProductForm({
           onChange={(e) => handleFieldChange('descricao_produto', e.target.value)}
         />
       </div>
-      <div>
-        <label className="block mb-2">Status</label>
-        <select
-          value={formData.status.toString()}
-          onChange={(e) => handleFieldChange('status', e.target.value === 'true')}
-          className="w-full p-2 border rounded"
-        >
-          <option value="true">Ativo</option>
-          <option value="false">Inativo</option>
-        </select>
-      </div>
+      {isEditing && (
+        <div>
+          <label className="block mb-2">Status</label>
+          <select
+            value={formData.status.toString()}
+            onChange={(e) => handleFieldChange('status', e.target.value === 'true')}
+            className="w-full p-2 border rounded"
+          >
+            <option value="true">Ativo</option>
+            <option value="false">Inativo</option>
+          </select>
+        </div>
+      )}
       <div className="flex gap-4">
         <button
           type="submit"
@@ -115,7 +118,7 @@ export default function ProductForm({
         >
           {loading ? 'Salvando...' : 'Salvar'}
         </button>
-        {onDelete && (
+        {isEditing && onDelete && (
           <button
             type="button"
             onClick={onDelete}
