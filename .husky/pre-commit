@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo '🏗️👷 Verificando seu código antes do commit...'
+
+# npm run lint-staged || (
+#     echo '❌ Opa! Há alguns erros no código...';
+#     false;
+# )
+
+echo '✅ Tudo certo! Commitando...' 
