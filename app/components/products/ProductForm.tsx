@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useProductForm } from '../../product/hooks/useProductFormHook';
 import { useRouter, useParams } from 'next/navigation';
-import InputSyno from '../ui/Input'; // Importando o InputSyno
+import InputSyno from '../ui/Input';
 
 export interface ProductData {
   codigo_produto: string;
