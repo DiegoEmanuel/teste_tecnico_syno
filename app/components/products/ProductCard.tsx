@@ -2,13 +2,13 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { ProductObject } from '@/app/types/product';
+import { Product } from '@/app/types/product';
 
 import { PencilIcon, PhotoIcon } from '@heroicons/react/24/outline';
 
 
 type ProductCardProps = {
-  product: ProductObject;
+  product: Product;
 };
 
 export default function ProductCard({ product }: ProductCardProps) {
