@@ -1,5 +1,6 @@
 # Projeto Next.js frontend
- - [Backend SYNO](https://github.com/DiegoEmanuel/teste_tecnico_syno_api).
+- Ambiente online: [Syno app online](https://testetecnicosyno.vercel.app/).
+ - [Repositório Backend SYNO](https://github.com/DiegoEmanuel/teste_tecnico_syno_api).
 ###### Se for executar local, rode primeiro o backend.
 
 ### Aplicação online - https://testetecnicosyno.vercel.app/
