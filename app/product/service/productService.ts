@@ -9,62 +9,51 @@ interface Product {
   foto_produto: string;
 }
 
-export async function getProduct(id: string) {
+async function getAuthHeaders(additionalHeaders: HeadersInit = {}): Promise<HeadersInit> {
   const session = await getSession();
   if (!session?.user.accessToken) throw new Error('Não autorizado');
+  return {
+    'Authorization': `Bearer ${session.user.accessToken}`,
+    ...additionalHeaders,
+  };
+}
 
-  const response = await fetch(`${API_URL}/products/${id}`, {
-    headers: {
-      'Authorization': `Bearer ${session.user.accessToken}`
-    }
-  });
-
+export async function getProduct(id: string) {
+  const headers = await getAuthHeaders();
+  const response = await fetch(`${API_URL}/products/${id}`, { headers });
   if (!response.ok) throw new Error('Erro ao buscar produto');
   return response.json();
 }
 
 export async function updateProduct(id: string, data: Partial<Product>, file?: File | null) {
-  const session = await getSession();
-  if (!session?.user.accessToken) throw new Error('Não autorizado');
-
-  let body: FormData | string;
-  const headers: HeadersInit = {
-    'Authorization': `Bearer ${session.user.accessToken}`
-  };
-
+  const headers = await getAuthHeaders();
+  const formData = new FormData();
+  formData.append('codigo_produto', data.codigo_produto!);
+  formData.append('descricao_produto', data.descricao_produto!);
+  formData.append('status', String(data.status));
+  
   if (file) {
-    body = new FormData() as FormData;
-    Object.entries(data).forEach(([key, value]) => {
-      (body as FormData).append(key, value as string);
-    });
-    (body as FormData).append('foto_produto', file);
-  } else {
-    headers['Content-Type'] = 'application/json';
-    body = JSON.stringify(data);
+    formData.append('foto_produto', file);
   }
 
   const response = await fetch(`${API_URL}/products/${id}`, {
     method: 'PUT',
-    headers,
-    body
+    headers, // Não defina 'Content-Type' ao usar FormData
+    body: formData
   });
 
-  if (!response.ok){
+  if (!response.ok) {
     const responseData = await response.json();
-      throw new Error(responseData.error);
-  } 
+    throw new Error(responseData.error);
+  }
   return response.json();
 }
 
 export async function deleteProduct(id: string) {
-  const session = await getSession();
-  if (!session?.user.accessToken) throw new Error('Não autorizado');
-
+  const headers = await getAuthHeaders();
   const response = await fetch(`${API_URL}/products/${id}`, {
     method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${session.user.accessToken}`
-    }
+    headers
   });
 
   if (!response.ok) throw new Error('Erro ao deletar produto');
@@ -72,9 +61,7 @@ export async function deleteProduct(id: string) {
 }
 
 export async function createProduct(data: Partial<Product>, file?: File | null) {
-  const session = await getSession();
-  if (!session?.user.accessToken) throw new Error('Não autorizado');
-
+  const headers = await getAuthHeaders({ 'Accept': 'application/json' });
   const formData = new FormData();
   formData.append('codigo_produto', data.codigo_produto!);
   formData.append('descricao_produto', data.descricao_produto!);
@@ -86,10 +73,7 @@ export async function createProduct(data: Partial<Product>, file?: File | null) 
 
   const response = await fetch(`${API_URL}/products`, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${session.user.accessToken}`,
-      'Accept': 'application/json',
-    },
+    headers,
     body: formData
   });
 
@@ -103,16 +87,12 @@ export async function createProduct(data: Partial<Product>, file?: File | null) 
 }
 
 export async function deleteProductImage(id: string) {
-  const session = await getSession();
-  if (!session?.user.accessToken) throw new Error('Não autorizado');
-
+  const headers = await getAuthHeaders();
   const response = await fetch(`${API_URL}/products/${id}/image`, {
     method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${session.user.accessToken}`
-    }
+    headers
   });
 
   if (!response.ok) throw new Error('Erro ao deletar imagem');
   return response.json();
-} 
+}
