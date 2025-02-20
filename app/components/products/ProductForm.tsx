@@ -32,7 +32,6 @@ export default function ProductForm({
     file,
     loading,
     error,
-    handleFieldChange,
     setFile,
     setLoading,
     setError,
@@ -51,11 +50,10 @@ export default function ProductForm({
     try {
       await onSubmit(formData, file);
     } catch (err: unknown) {
-      console.error('Erro ao salvar produto: verifique se o código está duplicado', err);
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError('Erro desconhecido');
+        setError('Erro ao salvar produto');
       }
     } finally {
       setLoading(false);
@@ -88,7 +86,7 @@ export default function ProductForm({
           label="Código do Produto"
           required={true}
           value={formData.codigo_produto}
-          onChange={(e) => handleFieldChange('codigo_produto', e.target.value)}
+          onChange={(e) => setFormData({ ...formData, codigo_produto: e.target.value })}
         />
       </div>
       <div>
@@ -96,7 +94,7 @@ export default function ProductForm({
           label="Descrição"
           required={true}
           value={formData.descricao_produto}
-          onChange={(e) => handleFieldChange('descricao_produto', e.target.value)}
+          onChange={(e) => setFormData({ ...formData, descricao_produto: e.target.value })}
         />
       </div>
       {isEditing && (
@@ -104,7 +102,7 @@ export default function ProductForm({
           <label className="block mb-2">Status</label>
           <select
             value={formData.status.toString()}
-            onChange={(e) => handleFieldChange('status', e.target.value === 'true')}
+            onChange={(e) => setFormData({ ...formData, status: e.target.value === 'true' })}
             className="w-full p-2 border rounded"
           >
             <option value="true">Ativo</option>

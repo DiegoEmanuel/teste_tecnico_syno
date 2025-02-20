@@ -8,9 +8,6 @@ export function useProductForm(initialState: ProductData) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState('');
 
-  const handleFieldChange = (name: keyof ProductData, value: string | boolean) => {
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
-  return { formData, setFormData, file, setFile, loading, setLoading, error, setError, handleFieldChange };
+  return { formData, setFormData, file, setFile, loading, setLoading, error, setError };
 }

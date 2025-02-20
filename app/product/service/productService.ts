@@ -49,7 +49,10 @@ export async function updateProduct(id: string, data: Partial<Product>, file?: F
     body
   });
 
-  if (!response.ok) throw new Error('Erro ao atualizar produto');
+  if (!response.ok){
+    const responseData = await response.json();
+      throw new Error(responseData.error);
+  } 
   return response.json();
 }
 
@@ -73,10 +76,10 @@ export async function createProduct(data: Partial<Product>, file?: File | null) 
   if (!session?.user.accessToken) throw new Error('Não autorizado');
 
   const formData = new FormData();
-  formData.append('codigo_produto', data.codigo_produto || '');
-  formData.append('descricao_produto', data.descricao_produto || '');
+  formData.append('codigo_produto', data.codigo_produto!);
+  formData.append('descricao_produto', data.descricao_produto!);
+  formData.append('status', 'true');
   
-
   if (file) {
     formData.append('foto_produto', file);
   }
@@ -84,13 +87,19 @@ export async function createProduct(data: Partial<Product>, file?: File | null) 
   const response = await fetch(`${API_URL}/products`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${session.user.accessToken}`
+      'Authorization': `Bearer ${session.user.accessToken}`,
+      'Accept': 'application/json',
     },
     body: formData
   });
 
-  if (!response.ok) throw new Error('Erro ao criar produto');
-  return response.json();
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    throw new Error(responseData.error);
+  }
+
+  return responseData;
 }
 
 export async function deleteProductImage(id: string) {

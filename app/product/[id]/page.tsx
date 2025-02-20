@@ -26,8 +26,11 @@ export default function EditProductPage() {
         const data = await getProduct(id);
         setInitialData(data);
       } catch (err) {
-        console.error('Erro ao buscar produto:', err);
-        setPageError('Erro ao buscar produto');
+        if (err instanceof Error) {
+          setPageError(err.message);
+        } else {
+          setPageError('Erro ao buscar produto');
+        }
       }
     }
     fetchProduct();
@@ -38,8 +41,11 @@ export default function EditProductPage() {
       await updateProduct(id, data, file);
       router.push('/product');
     } catch (err) {
-      console.error('Erro ao atualizar produto:', err);
-      setPageError('Erro ao atualizar produto');
+      if (err instanceof Error) {
+        setPageError(err.message);
+      } else {
+        setPageError('Erro ao atualizar produto');
+      }
     }
   };
 
@@ -49,8 +55,11 @@ export default function EditProductPage() {
       await deleteProduct(id);
       router.push('/product');
     } catch (err) {
-      console.error('Erro ao excluir produto:', err);
-      setPageError('Erro ao excluir produto');
+      if (err instanceof Error) {
+        setPageError(err.message);
+      } else {
+        setPageError('Erro ao excluir produto');
+      }
     }
   };
 
