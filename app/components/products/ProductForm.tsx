@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { useProductForm } from '../../product/hooks/useProductFormHook';
+import { useForm } from 'react-hook-form';
 import { useRouter, useParams } from 'next/navigation';
 import InputSyno from '../ui/Input';
 
@@ -25,30 +25,32 @@ export default function ProductForm({
 }: ProductFormProps) {
   const params = useParams();
   const isEditing = Boolean(params?.id);
+  const router = useRouter();
   
   const {
-    formData,
-    setFormData,
-    file,
-    loading,
-    error,
-    setFile,
-    setLoading,
-    setError,
-  } = useProductForm(initialData);
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue
+  } = useForm<ProductData>({
+    defaultValues: initialData
+  });
 
-  const router = useRouter();
+  const [file, setFile] = React.useState<File | null>(null);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState('');
 
   useEffect(() => {
-    setFormData(initialData);
-  }, [initialData, setFormData]);
+    setValue('codigo_produto', initialData.codigo_produto);
+    setValue('descricao_produto', initialData.descricao_produto);
+    setValue('status', initialData.status);
+  }, [initialData, setValue]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmitForm = async (data: ProductData) => {
     setLoading(true);
     setError('');
     try {
-      await onSubmit(formData, file);
+      await onSubmit(data, file);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -69,7 +71,7 @@ export default function ProductForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-4">
       {error && <div className="bg-red-50 text-red-500 p-4 rounded mb-4">{error}</div>}
       
       <div>
@@ -84,25 +86,30 @@ export default function ProductForm({
       <div>
         <InputSyno
           label="Código do Produto"
-          required={true}
-          value={formData.codigo_produto}
-          onChange={(e) => setFormData({ ...formData, codigo_produto: e.target.value })}
+          {...register('codigo_produto', {
+            required: 'Código do produto é obrigatório'
+          })}
         />
+        {errors.codigo_produto && (
+          <span className="text-red-500 text-sm">{errors.codigo_produto.message}</span>
+        )}
       </div>
       <div>
         <InputSyno
           label="Descrição"
-          required={true}
-          value={formData.descricao_produto}
-          onChange={(e) => setFormData({ ...formData, descricao_produto: e.target.value })}
+          {...register('descricao_produto', {
+            required: 'Descrição do produto é obrigatória'
+          })}
         />
+        {errors.descricao_produto && (
+          <span className="text-red-500 text-sm">{errors.descricao_produto.message}</span>
+        )}
       </div>
       {isEditing && (
         <div>
           <label className="block mb-2">Status</label>
           <select
-            value={formData.status.toString()}
-            onChange={(e) => setFormData({ ...formData, status: e.target.value === 'true' })}
+            {...register('status')}
             className="w-full p-2 border rounded"
           >
             <option value="true">Ativo</option>
