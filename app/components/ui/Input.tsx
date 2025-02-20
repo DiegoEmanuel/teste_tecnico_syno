@@ -7,6 +7,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: FieldError;
   icon?: React.ReactNode;
+  required?: boolean; // Adicionando a prop required
 }
 
 const InputSyno = forwardRef<HTMLInputElement, InputProps>(
@@ -16,6 +17,7 @@ const InputSyno = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label className="block text-sm font-medium text-gray-700 mb-1">
             {label}
+            {props.required && <span className="text-red-500">*</span>}
           </label>
         )}
         <div className="relative">

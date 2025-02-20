@@ -86,6 +86,7 @@ export default function ProductForm({
       <div>
         <InputSyno
           label="Código do Produto"
+          required={true}
           value={formData.codigo_produto}
           onChange={(e) => handleFieldChange('codigo_produto', e.target.value)}
         />
@@ -93,6 +94,7 @@ export default function ProductForm({
       <div>
         <InputSyno
           label="Descrição"
+          required={true}
           value={formData.descricao_produto}
           onChange={(e) => handleFieldChange('descricao_produto', e.target.value)}
         />
